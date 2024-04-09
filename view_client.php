@@ -33,7 +33,7 @@
             echo "<div class='client-nav'>";
             echo "<a href='client_summary.php?id=$id'>Summary</a> | ";
             echo "<a href='client_invoices.php?id=$id'>Invoices</a>";
-            echo "<a href='create_order_form.php?id=$id'>Manage Products</a>";
+            echo "<a href='manage_products.php?id=$id'>Manage Products</a>";
             echo "</div>";
         } else {
             echo "Client not found.";

@@ -3,15 +3,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require 'db_connect.php'; // Ensure you have a db_connect.php file for database connection
-require 'functions.php'; // Ensure you have a functions.php file with your custom functions
+require 'db_connect.php'; // Include the database connection file
 
 // Check if the form has been submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clientId = $_POST['clientId'];
     $packageId = $_POST['packageId'];
-    $pppoeName = $_POST['pppoeName'];
-    $pppoePassword = generatePassword(); // Assuming you have a function to generate a password
+
+    // Validate input (e.g., check if clientId and packageId are not empty)
+    if (empty($clientId) || empty($packageId)) {
+        die("Client ID or Package ID is missing.");
+    }
 
     // Fetch package details to calculate subtotal
     $stmt = $conn->prepare("SELECT * FROM packages WHERE package_id = ?");
@@ -25,20 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Package not found or amount is missing.");
     }
 
-    $subtotal = $package['amount']; // Correctly using 'amount' for the package price
+    $subtotal = $package['amount']; // Use the amount for the package price
 
-    // Insert the order and invoice
+    // Insert the order
     $stmt = $conn->prepare("INSERT INTO orders (client_id, package_id, subtotal, status) VALUES (?, ?, ?, 'unpaid')");
     $stmt->bind_param("iid", $clientId, $packageId, $subtotal);
     $stmt->execute();
-    $orderId = $conn->insert_id;
 
-    // Insert PPPoE credentials
-    $stmt = $conn->prepare("INSERT INTO pppoe_credentials (client_id, package_id, pppoe_name, pppoe_password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiss", $clientId, $packageId, $pppoeName, $pppoePassword);
-    $stmt->execute();
+    // Check if the order was inserted successfully
+    if ($stmt->affected_rows === 0) {
+        die("Failed to create order.");
+    }
 
-    // Redirect to view_client.php or a success page
+    // Redirect to a success page or back to the client details page
     header("Location: view_client.php?id=$clientId");
     exit;
 }

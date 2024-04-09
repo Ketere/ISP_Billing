@@ -3,17 +3,19 @@ require 'db_connect.php';
 
 $clientId = $_GET['id'];
 
-// Fetch products for the client
-$sql = "SELECT * FROM products WHERE client_id = $clientId";
+// Check if there is an existing package for the client
+$sql = "SELECT * FROM orders WHERE client_id = $clientId AND status = 'unpaid'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // Display products
+    // Existing package found, display details
     while($row = $result->fetch_assoc()) {
-        echo $row['product_name'] . "<br>";
+        echo $row['package_id'] . "<br>";
+        // Add more details as needed
     }
 } else {
-    // No products found, provide option to add a new product
-    echo "<a href='add_product.php?id=$clientId'>Add New Product</a>";
+    // No package found, redirect to create a new order
+    header("Location: create_order_form.php?id=$clientId");
+    exit;
 }
 ?>
