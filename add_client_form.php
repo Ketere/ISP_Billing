@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>add client</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/asssets/css/styles.css">
 </head>
 <body>
     <h1>ISP Billing System</h1>
@@ -12,7 +12,7 @@
     <!-- Client Management -->
     <div class="form-container">
         <h2>Client Management</h2>
-        <form action="add_client.php" method="post">
+        <form action="/public/add_client.php" method="post">
             <div class="form-group">
                 <label for="clientName">Name:</label>
                 <input type="text" id="clientName" name="name" required>

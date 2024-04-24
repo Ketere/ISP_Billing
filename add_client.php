@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Get the ID of the last inserted row
         $clientId = $conn->insert_id;
         // Redirect to view_client.php with the client ID
-        header("Location: view_client.php?id=$clientId");
+        header("Location: /public/view_client.php?id=$clientId");
         exit;
     } else {
         echo "Error adding client.";

@@ -9,9 +9,9 @@
 <body>
     <h1>ISP Billing Dashboard</h1>
     <nav>
-        <a href="add_client_form.php">Add New Client</a> |
-        <a href="view_clients.php">View All Clients</a> |
-        <a href="edit_client_details.php">Edit Client Details</a>
+        <a href="/public/add_client_form.php">Add New Client</a> |
+        <a href="/public/view_clients.php">View All Clients</a> |
+        <a href="/public/edit_client_details.php">Edit Client Details</a>
     </nav>
 </body>
 </html>
